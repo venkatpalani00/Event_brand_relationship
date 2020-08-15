@@ -1,0 +1,21 @@
+version: "3.1"
+services:
+  frontend:
+    build: ./project_intern
+    ports:
+      - 3000:3000
+    volumes:
+      - ./project_intern:/usr/src/app
+    depends_on:
+      - backend    
+    stdin_open: true
+  backend:
+    build: ./project_intern/api
+    ports:
+      - 5000:5000
+    volumes:
+      - ./project_intern:/usr/src/app
+    environment:
+      - FLASK_ENV=development
+      - FLASK_APP=api
+      - FLASK_DEBUG=1
