@@ -8,6 +8,9 @@ verify_ssl = true
 [packages]
 flask = "*"
 flask-sqlalchemy = "*"
+pandas = "*"
+seaborn = "*"
+sklearn = "*"
 
 [requires]
 python_version = "3.6"

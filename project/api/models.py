@@ -6,6 +6,8 @@ class User(db.Model):
 	user=db.Column(db.String(50),primary_key=True)
 	password=db.Column(db.String(50))
 	mode=db.Column(db.String(50))
+	phone=db.Column(db.Integer)
+	mail=db.Column(db.Integer)
 	crop=db.relationship('Farmer',backref='User')
 
 class Farmer(db.Model):

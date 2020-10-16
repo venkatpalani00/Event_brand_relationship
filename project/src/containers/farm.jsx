@@ -15,7 +15,13 @@ const Farm = () =>{
     const [flag,setF]=useState(0)
 
     const [dat,setData]=useState([])
-    const [far,setFar]=useState([])  
+    const [far,setFar]=useState([]) 
+    
+    const [State_name,setStatename]=useState(0);
+    const [District,setDistrict]=useState(0);
+    const [Crop_sown,setCropsown]=useState(0);
+    const [Season,setSeason]=useState(0)
+    const [Area,setArea]=useState(0)
 
     useEffect(()=>{
         fetch('/order').then(response => response.json().then(
@@ -168,7 +174,55 @@ const Farm = () =>{
     </Grid.Column>
     </Grid.Row>
     </Grid>
+    {/*hrithik*/}
+    <center>
+        <br /><br />
+    <Label style={{fontSize:'15px'}}>Enter data</Label><br /><br />
+    <Form>
+        <Form.Field width={6} >
+            <Input label='State_name' size='small' placeholder="Enter state name" value={State_name} onChange={e=>setStatename(e.target.value)}/>
+        </Form.Field>
+        <Form.Field  width={6} >
+            <Input placeholder="District" label="District" value={District} onChange={e=>setDistrict(e.target.value)}/>
+        </Form.Field>
+        <Form.Field  width={6} >
+            <Input label="Crop_sown" placeholder="Enter Crop sown" value={Crop_sown} onChange={e=>setCropsown(e.target.value)}/>
+        </Form.Field>
+        <Form.Field width={6} >
+            <Input label='Season' placeholder="Enter Season" value={Season} onChange={e=>setSeason(e.target.value)}/>
+        </Form.Field>
+        <Form.Field  width={6} >
+            <Input placeholder="area" label="Area" value={Area} onChange={e=>setArea(e.target.value)}/>
+        </Form.Field>
+    <Form.Field>
+        <Button
+            onClick={
+                async()=>{
+                    const farm=sessionStorage.getItem('mine');
+                    const use={State_name,District,Crop_sown,Season,Area};
+                    const response = await fetch("/ml",{
+                        method:"POST",
+                        headers:{
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(use)
+                    });
+                    if(response.ok){
+                       response.json().then(
+                           data=>{
+                               console.log(data)
+                           }
+                       )
+                    }
+                }
+            }
+            style={{fontSize:'15px'}}
+    >Go<Icon name='arrow alternate circle right outline' /></Button>
+        </Form.Field>
+    </Form>
+    </center>
     </div>
+
     )
 }
 

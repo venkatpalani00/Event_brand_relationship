@@ -23,6 +23,8 @@ const [msg,setMsg]=useState(0)
 const [mode,setMode]=useState("")
 const [lmsg,setLmsg]=useState(0)
 const [users,setUse]=useState({});
+const [phone,setPhone]=useState();
+const [mail,setMail]=useState("");
 
 const [dat1,setd1]=useState()
 const [dat2,setd2]=useState()
@@ -137,11 +139,19 @@ return (
                         <label>Password</label>
                         <Input type='password' placeholder='Password' value={password} onChange={e => setPass(e.target.value)}/>
                         </Form.Field>
+                        <Form.Field>
+                        <label>Phone Number</label>
+                        <Input placeholder='Phone number' value={phone} onChange={e => setPhone(e.target.value)}/>
+                        </Form.Field>
+                        <Form.Field>
+                        <label>E-mail</label>
+                        <Input placeholder='E-mail' type="mail" value={mail} onChange={e => setMail(e.target.value)}/>
+                        </Form.Field>
                         <Button
                             onClick={
                                 async()=>{
                                     var mode="farmer"
-                                    const use={user,password,mode};
+                                    const use={user,password,mode,phone,mail};
                                     const response = await fetch("/add_user",{
                                         method:"POST",
                                         headers:{
@@ -155,12 +165,16 @@ return (
                                         setUser('')
                                         setPass('')
                                         setUse(user1)
+                                        setPhone(0);
+                                        setMail('');
                                         console.log(users)
                                     }
                                     else{
                                         setMsg(2);
                                         setUser('')
                                         setPass('')
+                                        setPhone(0);
+                                        setMail('');
                                     }
                                 }
                             }
@@ -186,11 +200,19 @@ return (
                         <label>Password</label>
                         <Input type='password' placeholder='Password' value={password} onChange={e => setPass(e.target.value)}/>
                         </Form.Field>
+                        <Form.Field>
+                        <label>Phone Number</label>
+                        <Input placeholder='Phone number' value={phone} onChange={e => setPhone(e.target.value)}/>
+                        </Form.Field>
+                        <Form.Field>
+                        <label>E-mail</label>
+                        <Input placeholder='E-mail' type="mail" value={mail} onChange={e => setMail(e.target.value)}/>
+                        </Form.Field>
                         <Button
                             onClick={
                                 async()=>{
                                     var mode="customer"
-                                    const use={user,password,mode};
+                                    const use={user,password,mode,phone,mail};
                                     const response = await fetch("/add_user",{
                                         method:"POST",
                                         headers:{
@@ -204,12 +226,16 @@ return (
                                         setMsg(1);
                                         setUser('')
                                         setPass('')
+                                        setPhone(0);
+                                        setMail('');
                                         setUse(user1)
                                     }
                                     else{
                                         setMsg(2);
                                         setUser('')
                                         setPass('')
+                                        setPhone(0);
+                                        setMail('');
                                     }
                                 }
                             }
@@ -230,7 +256,11 @@ return (
     <Image src={i2} size='big' className="sliderimg"/>
     <Image src={i3} size='big' className="sliderimg"/>
     </AliceCarousel>
-    </Grid>
+    </Grid>        
+    <Segment>
+        <p>Agricuture is the backbone of India. But recently, crop production in India has very much declined. The major problem in agriculture is the overall decrease in the varieties of crops and livestock produced. In the early years of agriculture, farmers grew a wide variety of crops and raised many different types of livestock. Since the development of industrialized agriculture the number of different types of crops and livestock has decreased.
+        In order to help the farmers to identify the most suitable crop for them to have most profit and have wide varieties of crops to be produced, we provide interface to do exactly that. </p>
+    </Segment>
     </center>
     </div>
 )

@@ -1,4 +1,5 @@
 import React from 'react';
+import {Redirect} from 'react-router-dom'
 import _ from 'lodash'
 import {useState,useEffect} from 'react';
 import { List,Segment, Grid ,Input,Form,Button,Icon } from 'semantic-ui-react';
@@ -14,6 +15,8 @@ const Farm = () =>{
     const [quant,setQuan]=useState(1)
     const [quant1,setQuan1]=useState(0)
     const [cost1,setCost1]=useState(0)
+
+    const [l,setL]=useState(0)
    // const []
 
     const setValues = (index) =>{
@@ -37,6 +40,11 @@ const Farm = () =>{
         setCost(b)
     }
 
+    const fun = () =>{
+        sessionStorage.removeItem('mine')
+        setL(1);
+    }
+
     useEffect(()=>{
         fetch('/farmer').then(response => response.json().then(
             data=>{
@@ -47,10 +55,13 @@ const Farm = () =>{
 
     return(
     <div>
+        {
+            l==1?<Redirect to='' />:'' 
+        }
         hi {sessionStorage.getItem('mine')}
         {
         <center>
-        <h1></h1>
+        <Button style={{float:'right'}} onClick={fun}>LOGOUT</Button><br /><br />
         <Segment raised>
         <Form>
             <Form.Field>
@@ -83,7 +94,7 @@ const Farm = () =>{
             </Form.Field>
             <Form.Field width={4} >
                 <label>Cost</label>
-                <Form.Input value={cost} placeholder='Cost' readOnly/>
+                <Form.Input error value={cost} placeholder='Cost' readOnly/>
             </Form.Field>   
             </Form.Group>   
             <Form.Field>
