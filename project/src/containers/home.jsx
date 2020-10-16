@@ -1,17 +1,15 @@
 import React,{useState, useLayoutEffect} from 'react'
-import {Button, Segment, Form,Popup,Grid,Radio,Input} from 'semantic-ui-react'
+import {Button, Segment, Form,Popup,Grid,Radio,Input,Label,Image,Rail} from 'semantic-ui-react'
 import {Redirect} from 'react-router-dom'
 import { useEffect } from 'react'
+import AliceCarousel from 'react-alice-carousel';
+import "react-alice-carousel/lib/alice-carousel.css";
+import i1 from '../components/i1.jpg'
+import i2 from '../components/i2.jpg'
+import i3 from '../components/i3.jpg'
+import Farm from '../containers/farm'
 
 const Home = (props) =>{
-
-/*useEffect(()=>{
-    fetch('/movies').then(response => response.json().then(
-        data=>{
-            console.log(data);
-        }
-    ))
-},[])*/
 
 const [fl,setFl]=useState(0);
 const [fl1,setFl1]=useState(0)
@@ -25,6 +23,9 @@ const [msg,setMsg]=useState(0)
 const [mode,setMode]=useState("")
 const [lmsg,setLmsg]=useState(0)
 const [users,setUse]=useState({});
+
+const [dat1,setd1]=useState()
+const [dat2,setd2]=useState()
 
 useEffect(()=>{
     fetch('/users').then(response => response.json().then(
@@ -53,7 +54,7 @@ const login = () =>{
 return (
     <div>
     {
-        lsend==1?<Redirect to='/farm' /> : lsend==2?"":""
+        lsend==1?<Redirect to='/farm' /> : lsend==2?<Redirect to='/customer' /> :""
     }
     <center>
     {
@@ -62,11 +63,15 @@ return (
     {
         lmsg==1?<div>Login failed...Try again</div>:''
     }
+    <Segment compact style={{fontSize:'20px',fontFamily:'monospace'}}>FARMERS GUIDE</Segment>
+    <Segment raised color='teal'>
+        <center>
         <Button onClick={log}> LOGIN</Button>
-        <Button onClick={log1}>REGISTER</Button><br/><br/>
+        <Button onClick={log1}>REGISTER</Button>
         </center>
     {fl==1?
-        <center><Segment container raised compact justify='center'>
+        <center>
+            <Segment color='pink' container raised compact justify='center'>
             <label>LOGIN</label>
             <Form>
                 <Form.Field>
@@ -75,7 +80,7 @@ return (
                 </Form.Field>
                 <Form.Field>
                 <label>Password</label>
-                <input value={logpass} placeholder='Password' onChange={e => setLP(e.target.value)}/>
+                <input type='password' value={logpass} placeholder='Password' onChange={e => setLP(e.target.value)}/>
                 </Form.Field>  
                 <Button type='submit' 
                 onClick={
@@ -89,15 +94,22 @@ return (
                             body: JSON.stringify(use)
                         });
                         if(response.ok){
-                            console.log(users[loguser])
+                            console.log(users)
                             sessionStorage.setItem('mine',loguser);
-                            if(users[loguser]=='farmer')
+                            if(users[loguser]=='farmer'){
                                 setLsend(1)
-                            else
+                            }
+                                 else
                                 setLsend(2)
+                            
                         }
                         else{
                            setLmsg(1);
+                           setLU("");
+                           setLP("");
+                           var var1=loguser
+                           var user1={...users,[var1] : logpass }
+                           console.log(user1)
                         }
                     }
                 }
@@ -114,7 +126,6 @@ return (
                     position='top center'
                     size='tiny'
                     on='click'
-                    inverted
                 >
                  <center><br/><br/><Segment container raised compact justify='center'>
                         <Form>
@@ -139,9 +150,12 @@ return (
                                         body: JSON.stringify(use)
                                     });
                                     if(response.ok){
+                                        var user1={...users,[user]:mode}
                                         setMsg(1);
                                         setUser('')
                                         setPass('')
+                                        setUse(user1)
+                                        console.log(users)
                                     }
                                     else{
                                         setMsg(2);
@@ -161,7 +175,6 @@ return (
                     position='top center'
                     size='tiny'
                     on='click'
-                    inverted
                 >
                  <center><br/><br/><Segment container raised compact justify='center'>
                         <Form>
@@ -187,9 +200,11 @@ return (
                                     });
 
                                     if(response.ok){
+                                        var user1={...users,[user]:mode}
                                         setMsg(1);
                                         setUser('')
                                         setPass('')
+                                        setUse(user1)
                                     }
                                     else{
                                         setMsg(2);
@@ -207,7 +222,16 @@ return (
             </Segment></center> 
         :''
     }
-    
+    </Segment>
+    <br />
+    <Grid>
+    <AliceCarousel autoPlay infinite autoPlayInterval='2000'>
+    <Image width='50px' src={i1} size='big' className="sliderimg"/>
+    <Image src={i2} size='big' className="sliderimg"/>
+    <Image src={i3} size='big' className="sliderimg"/>
+    </AliceCarousel>
+    </Grid>
+    </center>
     </div>
 )
 
